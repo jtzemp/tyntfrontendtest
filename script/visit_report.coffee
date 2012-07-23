@@ -16,7 +16,10 @@ class window.VisitReport
     @monthly_totals = {} #[site] = totals
     @grand_total = 0
     @chart_options = {
-      xaxis: { mode: "time" },
+      xaxis: {
+        mode: "time",
+        timeformat: "%m/%d"
+      },
       legend: {
         labelFormatter: @formatLegend,
         container: "#data_table"

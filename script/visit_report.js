@@ -22,7 +22,8 @@
       this.grand_total = 0;
       this.chart_options = {
         xaxis: {
-          mode: "time"
+          mode: "time",
+          timeformat: "%m/%d"
         },
         legend: {
           labelFormatter: this.formatLegend,
