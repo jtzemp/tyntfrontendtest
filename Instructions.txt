@@ -1,0 +1,18 @@
+Thank you for your interest in Tynt. As part of our recruitment process we ask candidates to complete a small programming assignment. The assignment is technically easy, but is intended to provide enough scope to allow you to demonstrate your knowledge of good programming practices.
+
+Please create a webpage that implements the attached mockup using the data from the attached JSON data file. The file contains the number of visits for a given domain and day. The webpage should load the attached JSON file and calculate the visits to each ROOT domain by day as well as the totals for the month. Assume that the code you are writing will reside in Tynt's main production codebase and should be deployable to a web server without any server side processing capabilities.
+
+Development Notes
+
+* There is no time limit to complete this exercise
+* If there are errors in the example, state your assumptions and continue.
+* Assume the files will be found on the same web server with the same domain.
+* As part of the exercise, you may choose to write unit tests appropriate for the task, using a framework of your choice.
+* Use the development tools of your choice, but please write the software in HTML/CSS/Javascript
+* Use the libraries of your choice, but they must be Open Source and free to distribute commercially.
+* Please do not use Flash
+* Your Webpage must function correctly in Google Chrome 17+ and Firefox 10+. Your page will not be loaded in IE.
+* Please submit all available aspects of your work (source, usage instructions, and any other work products that might be helpful)
+* Bonus points for making your work easy for us to evaluate by deploying to the web and giving us a link.
+* The mockup is only a guide, feel free to present the data another way that you may feel is more interesting or effective.
+* Have Fun!
