@@ -14,15 +14,15 @@
     });
     describe("#dataUrl()", function() {
       it("takes a year and a month as parameter and returns the url to grab the data from", function() {
-        return expect(this.visit_report.dataUrl()).toEqual("../data/2009-10_visits.json");
+        return expect(this.visit_report.dataUrl()).toEqual("data/2009-10_visits.json");
       });
       return it("for the sake of the exercise it defaults to the only data set I have (Oct, 2009)", function() {
-        return expect(this.visit_report.dataUrl()).toEqual("../data/2009-10_visits.json");
+        return expect(this.visit_report.dataUrl()).toEqual("data/2009-10_visits.json");
       });
     });
     describe("#getData()", function() {
       it("gets the requested data from the VisitReport object dataUrl()", function() {
-        spyOn(this.visit_report, 'dataUrl').andReturn("../data/2009-10_visits.json");
+        spyOn(this.visit_report, 'dataUrl').andReturn("data/2009-10_visits.json");
         this.visit_report.getData();
         return expect(this.visit_report.dataUrl).toHaveBeenCalled();
       });
@@ -32,15 +32,10 @@
       });
     });
     describe("#drawReport()", function() {
-      it("calls #drawChart()", function() {
+      return it("calls #drawChart()", function() {
         spyOn(this.visit_report, 'drawChart');
         this.visit_report.drawReport();
         return expect(this.visit_report.drawChart).toHaveBeenCalled();
-      });
-      return it("calls #drawDataTable()", function() {
-        spyOn(this.visit_report, 'drawDataTable');
-        this.visit_report.drawReport();
-        return expect(this.visit_report.drawDataTable).toHaveBeenCalled();
       });
     });
     describe("#transformData()", function() {

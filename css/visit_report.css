@@ -1,5 +1,12 @@
 #chart {
   width: 600px;
   height: 300px;
-  /*border: 1px solid black;*/
+}
+
+#legend #data_table table {
+  text-align: left;
+}
+
+.right {
+  text-align: right;
 }

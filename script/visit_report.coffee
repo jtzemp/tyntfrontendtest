@@ -1,6 +1,8 @@
 class window.VisitReport
   @_chart_id = "#chart"
   @_data_table_id = "#data_table"
+  # this really belongs somewhere else, but this is such a small project. It would get refactored into it's own home in a 'real' project.
+  @_month_names = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ]
 
   constructor: (year, month)->
     @year = year || 2009
@@ -12,15 +14,14 @@ class window.VisitReport
     @min_date = null
     @sites = {}
     @monthly_totals = {} #[site] = totals
-    @grand_total = null
+    @grand_total = 0
     @chart_options = {
       xaxis: { mode: "time" },
       legend: {
-        labelFormatter: @formatLegend
+        labelFormatter: @formatLegend,
+        container: "#data_table"
       }
     }
-
-
 
   dataUrl: ->
     "data/#{@year}-#{@month}_visits.json"
@@ -34,21 +35,31 @@ class window.VisitReport
       'json'
 
   formatLegend: (label, series) ->
-    "</td><td>#{label}</td><td>#{vr.monthly_totals[label]}</td>"
+    "</td><td>#{label}</td><td class=\"right\">#{vr.monthly_totals[label]}</td>"
 
   drawReport: ->
     # alert "drawing the report"
     @transformData()
     @drawChart()
-    @drawDataTable()
+    @renderHeader()
+    @renderLegendHeader()
+    @renderLegendSummary()
 
   drawChart: ->
     $.plot($("#chart"), @chart_data, @chart_options)
 
-  drawDataTable: ->
-    # populate the table with tablular data
-    # alert "drawing the table"
+  renderHeader: ->
+    report_date = new Date(@year, @month, 1)
+    month_name = VisitReport._month_names[@month]
+    $("h1").append("#{month_name}, #{@year}")
 
+  renderLegendHeader: ->
+    $('#legend #data_table table').prepend('<thead><tr><th></th><th></th><th>Site Root</th><th class="right">Visits</th></tr></thead>')
+
+  renderLegendSummary: ->
+    $('#legend #data_table table').prepend('<tfoot><tr><th colspan="3">Total:</th><th class="right">' + @grand_total + "</th></tr></tfoot>")
+
+    $('h1').prepend()
   transformData: ->
     # take the data as given and transform it into a set useful for Flot
     result = []
@@ -72,6 +83,7 @@ class window.VisitReport
     @sites[site] = site unless site in @sites
     @intermediate_data[site + day.toString()] = views
     if @monthly_totals[site] then @monthly_totals[site] += views else @monthly_totals[site] = views
+    @grand_total += views
 
   canonicalDomain: (name) ->
     if name

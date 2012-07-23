@@ -11,14 +11,14 @@ describe "VisitReport", ->
   
   describe "#dataUrl()", ->
     it "takes a year and a month as parameter and returns the url to grab the data from", ->
-      expect(@visit_report.dataUrl()).toEqual("../data/2009-10_visits.json")
+      expect(@visit_report.dataUrl()).toEqual("data/2009-10_visits.json")
 
     it "for the sake of the exercise it defaults to the only data set I have (Oct, 2009)", ->
-      expect(@visit_report.dataUrl()).toEqual("../data/2009-10_visits.json")
+      expect(@visit_report.dataUrl()).toEqual("data/2009-10_visits.json")
 
   describe "#getData()", ->
     it "gets the requested data from the VisitReport object dataUrl()", ->
-      spyOn(@visit_report, 'dataUrl').andReturn("../data/2009-10_visits.json")
+      spyOn(@visit_report, 'dataUrl').andReturn("data/2009-10_visits.json")
       @visit_report.getData()
       expect(@visit_report.dataUrl).toHaveBeenCalled()
 
@@ -33,11 +33,6 @@ describe "VisitReport", ->
       spyOn(@visit_report, 'drawChart')
       @visit_report.drawReport()
       expect(@visit_report.drawChart).toHaveBeenCalled()
-
-    it "calls #drawDataTable()", ->
-      spyOn(@visit_report, 'drawDataTable')
-      @visit_report.drawReport()
-      expect(@visit_report.drawDataTable).toHaveBeenCalled()
 
   describe "#transformData()", ->
     it "takes the data format given and translates it into data useable for Flot", ->

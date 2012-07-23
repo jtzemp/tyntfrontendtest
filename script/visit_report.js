@@ -7,6 +7,8 @@
 
     VisitReport._data_table_id = "#data_table";
 
+    VisitReport._month_names = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
     function VisitReport(year, month) {
       this.year = year || 2009;
       this.month = month || 10;
@@ -17,13 +19,14 @@
       this.min_date = null;
       this.sites = {};
       this.monthly_totals = {};
-      this.grand_total = null;
+      this.grand_total = 0;
       this.chart_options = {
         xaxis: {
           mode: "time"
         },
         legend: {
-          labelFormatter: this.formatLegend
+          labelFormatter: this.formatLegend,
+          container: "#data_table"
         }
       };
     }
@@ -43,20 +46,36 @@
     };
 
     VisitReport.prototype.formatLegend = function(label, series) {
-      return "</td><td>" + label + "</td><td>" + vr.monthly_totals[label] + "</td>";
+      return "</td><td>" + label + "</td><td class=\"right\">" + vr.monthly_totals[label] + "</td>";
     };
 
     VisitReport.prototype.drawReport = function() {
       this.transformData();
       this.drawChart();
-      return this.drawDataTable();
+      this.renderHeader();
+      this.renderLegendHeader();
+      return this.renderLegendSummary();
     };
 
     VisitReport.prototype.drawChart = function() {
       return $.plot($("#chart"), this.chart_data, this.chart_options);
     };
 
-    VisitReport.prototype.drawDataTable = function() {};
+    VisitReport.prototype.renderHeader = function() {
+      var month_name, report_date;
+      report_date = new Date(this.year, this.month, 1);
+      month_name = VisitReport._month_names[this.month];
+      return $("h1").append("" + month_name + ", " + this.year);
+    };
+
+    VisitReport.prototype.renderLegendHeader = function() {
+      return $('#legend #data_table table').prepend('<thead><tr><th></th><th></th><th>Site Root</th><th class="right">Visits</th></tr></thead>');
+    };
+
+    VisitReport.prototype.renderLegendSummary = function() {
+      $('#legend #data_table table').prepend('<tfoot><tr><th colspan="3">Total:</th><th class="right">' + this.grand_total + "</th></tr></tfoot>");
+      return $('h1').prepend();
+    };
 
     VisitReport.prototype.transformData = function() {
       var day, name, result, row, series, site, _i, _len, _ref, _ref2;
@@ -95,10 +114,11 @@
       if (__indexOf.call(this.sites, site) < 0) this.sites[site] = site;
       this.intermediate_data[site + day.toString()] = views;
       if (this.monthly_totals[site]) {
-        return this.monthly_totals[site] += views;
+        this.monthly_totals[site] += views;
       } else {
-        return this.monthly_totals[site] = views;
+        this.monthly_totals[site] = views;
       }
+      return this.grand_total += views;
     };
 
     VisitReport.prototype.canonicalDomain = function(name) {
